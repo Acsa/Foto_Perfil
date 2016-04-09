@@ -21,7 +21,7 @@
 				},
 
 				tomarFoto: function() {
-					navigator.camera.getPicture(app.fotoExitosa, app.fotoFallo, {quality: 100, allowEdit: false});
+					navigator.camera.getPicture(app.fotoExitosa, app.fotoFallo, {quality: 100, allowEdit: true});
 				},
 				fotoExitosa: function(direccionImagen) {
 					var imagen = document.getElementById('Foto');
