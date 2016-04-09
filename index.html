@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="msapplication-tap-highlight" content="no" />
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+        <link rel="stylesheet" type="text/css" href="css/index.css" />
+        <title>Agregar foto de perfil</title>
+		<script>
+			var app = {
+				initialize: function() {
+					this.bindEvents();
+				},
+		
+				bindEvents: function() {
+					var tomarFoto = document.getElementById('tomarFoto');
+					tomarFoto.addEventListener('click', app.tomarFoto, false);
+					var subirFoto = document.getElementById('subirFoto');
+					subirFoto.addEventListener('click', app.subirFoto, false);
+				},
+
+				tomarFoto: function() {
+					navigator.camera.getPicture(app.fotoExitosa, app.fotoFallo, {quality: 100, allowEdit: false});
+				},
+				fotoExitosa: function(direccionImagen) {
+					var imagen = document.getElementById('Foto');
+					imagen.src = direccionImagen;
+				},
+				fotoFallo: function(mensaje) {
+					alert('Error: ' + mensaje);
+				},
+				subirFoto: function() {
+					alert('Aquí tengo que ver como almacenarla en FileSystem');
+				},
+			};
+		</script>
+    </head>
+    <body>
+        <div id="content" style="margin-top: 100px;">
+                  <h1>Agregar foto de perfil</h1>
+                  <button id="tomarFoto">SELECCIONAR FOTO</button>
+                  <img id="Foto" src=""/>
+                  <button id="subirFoto">SUBIR FOTO</button>
+              </div>
+        <script type="text/javascript" src="cordova.js"></script>
+        <script type="text/javascript" src="js/index.js"></script>
+        <script type="text/javascript">
+            app.initialize();
+        </script>
+    </body>
+</html>
