@@ -20,7 +20,7 @@
 				tomarFoto: function() {
 					navigator.camera.getPicture(app.fotoExitosa, app.fotoFallo, {quality: 100, allowEdit: true,sourceType: Camera.PictureSourceType.CAMERA});
 				},
-				seleccionararFoto: function() {
+				seleccionarFoto: function() {
 					navigator.camera.getPicture(app.fotoExitosa, app.fotoFallo, {quality: 100, allowEdit: true,sourceType: Camera.PictureSourceType.PHOTOLIBRARY});
 				},
 				fotoExitosa: function(direccionImagen) {
