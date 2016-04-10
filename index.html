@@ -1,11 +1,6 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta charset="utf-8" />
-        <meta name="format-detection" content="telephone=no" />
-        <meta name="msapplication-tap-highlight" content="no" />
-        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
-        <link rel="stylesheet" type="text/css" href="css/index.css" />
         <title>Agregar foto de perfil</title>
 		<script>
 			var app = {
@@ -21,7 +16,7 @@
 				},
 
 				tomarFoto: function() {
-					navigator.camera.getPicture(app.fotoExitosa, app.fotoFallo, {quality: 100, allowEdit: true});
+					navigator.camera.getPicture(app.fotoExitosa, app.fotoFallo, {quality: 100, allowEdit: true,sourceType: Camera.PictureSourceType.PHOTOLIBRARY});
 				},
 				fotoExitosa: function(direccionImagen) {
 					var imagen = document.getElementById('Foto');
@@ -36,12 +31,12 @@
 			};
 		</script>
     </head>
-    <body>
+    <body bgcolor="#BCFCCF">
         <div id="content" style="margin-top: 100px;">
                   <h1>Agregar foto de perfil</h1>
-                  <button id="tomarFoto">SELECCIONAR FOTO</button>
-                  <img id="Foto" src="" width="100px" height="100px"/>
-                  <button id="subirFoto">SUBIR FOTO</button>
+                  <p><center><button id="tomarFoto">SELECCIONAR FOTO</button></p></center>
+                  <p><img id="Foto" src="" width="100px" height="100px"/></p>
+                  <p><button id="subirFoto">SUBIR FOTO</button></p>
               </div>
         <script type="text/javascript" src="cordova.js"></script>
         <script type="text/javascript" src="js/index.js"></script>
