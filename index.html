@@ -11,11 +11,16 @@
 				bindEvents: function() {
 					var tomarFoto = document.getElementById('tomarFoto');
 					tomarFoto.addEventListener('click', app.tomarFoto, false);
+					var seleccionarFoto = document.getElementById('seleccionarFoto');
+					seleccionarFoto.addEventListener('click', app.seleccionarFoto, false);
 					var subirFoto = document.getElementById('subirFoto');
 					subirFoto.addEventListener('click', app.subirFoto, false);
 				},
 
 				tomarFoto: function() {
+					navigator.camera.getPicture(app.fotoExitosa, app.fotoFallo, {quality: 100, allowEdit: true,sourceType: Camera.PictureSourceType.CAMERA});
+				},
+				seleccionararFoto: function() {
 					navigator.camera.getPicture(app.fotoExitosa, app.fotoFallo, {quality: 100, allowEdit: true,sourceType: Camera.PictureSourceType.PHOTOLIBRARY});
 				},
 				fotoExitosa: function(direccionImagen) {
@@ -34,7 +39,8 @@
     <body bgcolor="#BCFCCF">
         <div id="content" style="margin-top: 100px;">
                   <h1>Agregar foto de perfil</h1>
-                  <p><center><button id="tomarFoto">SELECCIONAR FOTO</button></p></center>
+                  <p><button id="tomarFoto">TOMAR FOTO</button></p>
+                  <button id="seleccionarFoto">SELECCIONAR FOTO</button>
                   <p><img id="Foto" src="" width="100px" height="100px"/></p>
                   <p><button id="subirFoto">SUBIR FOTO</button></p>
               </div>
