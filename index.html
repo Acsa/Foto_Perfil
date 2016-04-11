@@ -4,64 +4,49 @@
     <head>
         <title>Agregar foto de perfil</title>
 		<script>
-			var imagen;
-			var app = {
-				initialize: function() {
-					this.bindEvents();
-				},
-		
-				bindEvents: function() {
-					var tomarFoto = document.getElementById('tomarFoto');
-					tomarFoto.addEventListener('click', app.tomarFoto, false);
-					var seleccionarFoto = document.getElementById('seleccionarFoto');
-					seleccionarFoto.addEventListener('click', app.seleccionarFoto, false);
-					var subirFoto = document.getElementById('subirFoto');
-					subirFoto.addEventListener('click', app.subirFoto, false);
-				},
-				tomarFoto: function() {
-					navigator.camera.getPicture(app.fotoExitosa, app.fotoFallo, {quality: 100, allowEdit: false,correctOrientation: true, sourceType: Camera.PictureSourceType.CAMERA});
-				},
-				seleccionarFoto: function() {
-					navigator.camera.getPicture(app.fotoExitosa, app.fotoFallo, {quality: 100, allowEdit: true,sourceType: Camera.PictureSourceType.PHOTOLIBRARY});
-				},
-				fotoExitosa: function(direccionImagen) {
-					document.getElementById('Foto').src = direccionImagen;
-					imagen = direccionImagen;
-				},
-				fotoFallo: function(mensaje) {
-					alert(mensaje);
-				},
-				subirFoto: function() {
-					var options = new FileUploadOptions(), params = new Object;
-					options.fileKey="imagen";
-					options.fileName=imagen.substr(imageURI.lastIndexOf('/')+1);
-				        options.mimeType="image/jpeg";
-		
-				        params.value1 = "test";
-				        params.value2 = "param";
+			var imagenSubir;
+			function tomarFoto() {
+				navigator.camera.getPicture(app.fotoExitosa, app.fotoFallo, {quality: 100, allowEdit: false,correctOrientation: true, sourceType: Camera.PictureSourceType.CAMERA});
+			}
+			function seleccionarFoto() {
+				navigator.camera.getPicture(app.fotoExitosa, app.fotoFallo, {quality: 100, allowEdit: true,sourceType: Camera.PictureSourceType.PHOTOLIBRARY});
+			}
+			function fotoExitosa(direccionImagen) {
+				var imagen = document.getElementById('Foto')
+				imagen.src = direccionImagen;
+				imagenSubir = direccionImagen;
+			}
+			function fotoFallo(mensaje) {
+				alert(mensaje);
+			},
+			function subirFoto() {
+				var options = new FileUploadOptions();
+				options.fileKey="imagen";
+				options.fileName=imagenSubir.substr(imageURI.lastIndexOf('/')+1);          
 
-				        options.params = params;
-				        options.chunkedMode = false;
-          
-					var ft = new FileTransfer();
-					ft.upload(imagen, "http:192.168.192.129/index.php", win, fail, options);
-				},
-				win: function(r){
-					alert("RESPUESTA SERVIDOR: " + r.response);
-				},
-				fail: function(error){
-					alert("Ocurrio un error: Code " + error.code);
-				},
-			};
+				var ft = new FileTransfer();
+
+				ft.upload(imagenSubir, "http:192.168.192.129/MisImagenes/agregarRuta.php", subirExito, subirFallo, options);
+			}
+			function subirExito(r){
+				alert("Code = " + r.responseCode+" Response = " + r.response+" Sent = " + r.bytesSent);
+		                var image = document.getElementById('fotoServidor');
+                		image.src = r.response;
+			}
+			function subirFallo(error){
+					 alert("An error has occurred: Code = " + error.code+ " upload error source " + error.source+" upload error target " + error.target);
+			}
+
 		</script>
     </head>
     <body bgcolor="#BCFCCF">
         <div id="content" style="margin-top: 100px;">
                   <h1>Agregar foto de perfil</h1>
                   <p><input type="button" id="tomarFoto" value="TOMAR FOTO" onclick="tomarFoto();" /></p>
-                  <button id="seleccionarFoto">SELECCIONAR FOTO</button>
+                  <input type="button" id="seleccionarFoto" value="SELECCIONAR FOTO" onclick="seleccionarFoto();"/>
                   <p><img id="Foto" src="" width="100px" height="100px"/></p>
-                  <p><button id="subirFoto">SUBIR FOTO</button></p>
+                  <p><img id="fotoServidor" src="" width="100px" height="100px"/></p>  
+   	  	  <p><input type="button" id="subirFoto" value="SUBIR FOTO" onclick="subirFoto();"/></p>
               </div>
         <script type="text/javascript" src="cordova.js"></script>
         <script type="text/javascript" src="js/index.js"></script>
