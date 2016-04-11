@@ -1,8 +1,10 @@
+
 <!DOCTYPE html>
 <html>
     <head>
         <title>Agregar foto de perfil</title>
 		<script>
+			var imagen;
 			var app = {
 				initialize: function() {
 					this.bindEvents();
@@ -16,7 +18,6 @@
 					var subirFoto = document.getElementById('subirFoto');
 					subirFoto.addEventListener('click', app.subirFoto, false);
 				},
-
 				tomarFoto: function() {
 					navigator.camera.getPicture(app.fotoExitosa, app.fotoFallo, {quality: 100, allowEdit: false,correctOrientation: true, sourceType: Camera.PictureSourceType.CAMERA});
 				},
@@ -24,14 +25,32 @@
 					navigator.camera.getPicture(app.fotoExitosa, app.fotoFallo, {quality: 100, allowEdit: true,sourceType: Camera.PictureSourceType.PHOTOLIBRARY});
 				},
 				fotoExitosa: function(direccionImagen) {
-					var imagen = document.getElementById('Foto');
-					imagen.src = direccionImagen;
+					document.getElementById('Foto').src = direccionImagen;
+					imagen = direccionImagen;
 				},
 				fotoFallo: function(mensaje) {
 					alert(mensaje);
 				},
 				subirFoto: function() {
-					alert('Aquí tengo que ver como almacenarla en FileSystem');
+					var options = new FileUploadOptions(), params = new Object;
+					options.fileKey="imagen";
+					options.fileName=imagen.substr(imageURI.lastIndexOf('/')+1);
+				        options.mimeType="image/jpeg";
+		
+				        params.value1 = "test";
+				        params.value2 = "param";
+
+				        options.params = params;
+				        options.chunkedMode = false;
+          
+					var transArchivo = new FileTransfer();
+					transArchivo.upload(imagen, "http:192.168.192.129/MisImagenes/agregarRuta.php", win, fail);
+				},
+				win: function(r){
+					alert("RESPUESTA SERVIDOR: " + r.response);
+				},
+				fail: function(error){
+					alert("Ocurrio un error: Code " + error.code);
 				},
 			};
 		</script>
@@ -39,7 +58,7 @@
     <body bgcolor="#BCFCCF">
         <div id="content" style="margin-top: 100px;">
                   <h1>Agregar foto de perfil</h1>
-                  <p><button id="tomarFoto">TOMAR FOTO</button></p>
+                  <p><input type="button" id="tomarFoto" value="TOMAR FOTO" onclick="tomarFoto();" /></p>
                   <button id="seleccionarFoto">SELECCIONAR FOTO</button>
                   <p><img id="Foto" src="" width="100px" height="100px"/></p>
                   <p><button id="subirFoto">SUBIR FOTO</button></p>
