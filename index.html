@@ -1,55 +1,54 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        
-        <title>Agregar foto de perfil</title>
-		<script>
-			var app = {
-				initialize: function() {
-					this.bindEvents();
-				},
+<!DOCTYPE HTML>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<title>Gelocalización</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
+<script type="text/javascript">
+
+		/*Funcion para geolocalizar*/
+		function geolocalizar()
+		{
+			/*A la etitqueta P le escribimos un mensaje de espera*/
+			//$("#estado").text("Buscandote...");
+			/*Funcion para obtener la geolocalizacion, Parametro de geolocalzacion: mostrar, Parametro de error: error*/
+			navigator.geolocation.getCurrentPosition(mostrar,error,opciones);
+			
+		}
 		
-				bindEvents: function() {
-					var tomarFoto = document.getElementById('tomarFoto');
-					tomarFoto.addEventListener('click', app.tomarFoto, false);
-					var seleccionarFoto = document.getElementById('seleccionarFoto');
-					seleccionarFoto.addEventListener('click', app.seleccionarFoto, false);
-					var subirFoto = document.getElementById('subirFoto');
-					subirFoto.addEventListener('click', app.subirFoto, false);
-				},
+		/*Funcion para obtener la geolocalizacion*/
+		function mostrar(posicion)
+		{
+			/* posicion es el parametro que tiene los valores, las variables para latitud y longitud las obtenemos del parametro posicion.coords*/
+			var lat = posicion.coords.latitude; //obtengo la latitud
+			var lon = posicion.coords.longitude; //obtengo la longitud
+			
+			/*Escribir en la etiqueta las coordenandas*/
+			$("#estado").append("<p>Su ubicación en Costa Rica es: "+ "</p>");
+						$("#estado").append("<p>Latitud  : " + lat + "</p>");
+						$("#estado").append("<p>Longitud : " + lon+ "</p>");
+						
+		}
+		
+		
+		/*Funcion para el error cuando no hay geolocalizacion*/
+		function error(error)
+		{
+			//El parametro error tambien tiene valores de los errores exactos, pero aqui no lo usaremos.
+			$("#estado").text("No se encuentra tu ubicación");
+		}
+		var opciones = {
+			
+			timeout: 6000
+			
+		};
 
-				tomarFoto: function() {
-					navigator.camera.getPicture(app.fotoExitosa, app.fotoFallo, {quality: 100, allowEdit: false,correctOrientation: true, sourceType: Camera.PictureSourceType.CAMERA});
-				},
-			    seleccionarFoto: function() {
-					navigator.camera.getPicture(app.fotoExitosa, app.fotoFallo, {quality: 100, allowEdit: true,sourceType: Camera.PictureSourceType.PHOTOLIBRARY});
-				},
-				fotoExitosa: function(direccionImagen) {
-					var imagen = document.getElementById('Foto');
-					imagen.src = direccionImagen;
-				},
-				fotoFallo: function(mensaje) {
-					alert('Error: ' + mensaje);
-				},
-				subirFoto: function() {
-					alert('Aquí tengo que ver como almacenarla en FileSystem');
-				},
-			};
-		</script>
-    </head>
-    <body bgcolor="BCFCCF">
-        <div id="content" style="margin-top: 100px;">
-                  <h1><center>Agregar foto de perfil</center></h1>
-                  <p><button id="tomarFoto">TOMAR FOTO</button></p>
-                  <button id="seleccionarFoto">SELECCIONAR FOTO<button>
-				  <p><img id="Foto" src="" width="120px" height="120px"/></p>
-                  <p><button id="subirFoto">SUBIR FOTO</button></p>
-              </div>
-        <script type="text/javascript" src="cordova.js"></script>
-        <script type="text/javascript" src="js/index.js"></script>
-        <script type="text/javascript">
-            app.initialize();
-        </script>
-    </body>
+
+</script>
+</head>
+
+<body>
+<p id="estado"></p>
+<a href="javascript: geolocalizar();" title="Buscar Lugar">Buscar Lugar</a>
+</body>
 </html>
-
